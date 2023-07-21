@@ -1,4 +1,4 @@
 syntax = "proto3";
 
 package grpc;
-option go_package = "go-pi-smart-door/proto/grpc";
+option go_package = "sending-grps-status/proto/grpc";
