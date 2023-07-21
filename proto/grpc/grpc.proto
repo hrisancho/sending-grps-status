@@ -2,3 +2,56 @@ syntax = "proto3";
 
 package grpc;
 option go_package = "sending-grps-status/proto/grpc";
+
+
+message StateClient{
+  uint32 NextGC = 1;
+  uint32 NumForcedGC = 2;
+
+  uint64 BuckHashSys = 3;
+  uint64 Frees = 4;
+  uint64 GCSys = 5;
+
+  uint64 HeapAlloc = 6;
+  uint64 HeapIdle = 7;
+  uint64 HeapInuse = 8;
+  uint64 HeapObjects = 9;
+  uint64 HeapReleased = 10;
+  uint64 HeapSys = 11;
+
+
+  uint64 LastGC = 12;
+  uint64 Lookups = 13;
+
+  uint64 MCacheInuse = 14;
+  uint64 MCacheSys = 15;
+  uint64 MSpanInuse = 16;
+  uint64 MSpanSys = 17;
+
+  uint64 Mallocs = 18;
+  uint64 NumGC = 19;
+  uint64 OtherSys = 20;
+  uint64 PauseTotalNs = 21;
+
+  uint64 StackInuse = 22;
+  uint64 StackSys = 23;
+
+  uint64 Alloc = 24;
+  uint64 Sys = 25;
+  uint64 TotalAlloc = 26;
+  uint64 RandomValue = 27;
+
+  uint64 TotalMemory = 28;
+  uint64 FreeMemory = 29;
+
+  float GCCPUFraction = 30;
+}
+
+message RetServer{
+  string hi = 1;
+}
+
+service Status {
+
+  rpc Hi (StateClient) returns (RetServer){}
+}
