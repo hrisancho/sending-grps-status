@@ -26,3 +26,6 @@ libsTest/
 # Environment variables(Config files), Logs
 *.env
 *.log
+
+#Proto and other files already generated during execution
+*.pb.go
