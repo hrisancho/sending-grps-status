@@ -4,7 +4,7 @@ package grpc;
 option go_package = "sending-grps-status/proto/grpc";
 
 
-message StateClient{
+message StateRequest{
   uint32 NextGC = 1;
   uint32 NumForcedGC = 2;
 
@@ -47,11 +47,10 @@ message StateClient{
   float GCCPUFraction = 30;
 }
 
-message RetServer{
+message StateReply{
   string hi = 1;
 }
 
 service Status {
-
-  rpc Hi (StateClient) returns (RetServer){}
+  rpc StateFun (StateRequest) returns (StateReply){}
 }

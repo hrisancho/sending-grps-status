@@ -8,10 +8,6 @@ import (
 	"github.com/google/uuid"
 )
 
-func (server *Server) Hi(ctx *fiber.Ctx) (err error) {
-	return ctx.SendString("Hi")
-}
-
 func (server *Server) addMetrics(ctx *fiber.Ctx) (err error) {
 	var userMetricStorage client.UserMetricStorage
 
