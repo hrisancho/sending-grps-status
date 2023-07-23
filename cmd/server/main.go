@@ -1,17 +1,26 @@
 package main
 
 import (
-	"GSS/proto/grpc"
-	"flag"
-	"fmt"
-	"log"
-	"net"
-
-	pb "google.golang.org/grpc/examples/helloworld/helloworld"
-
 	"GSS/internal/server"
 	"GSS/internal/server/config"
+	"context"
+	"fmt"
+	"google.golang.org/grpc"
+	pb "google.golang.org/grpc/examples/helloworld/helloworld"
+	"log"
+	"net"
 )
+
+// TODO сделать методы для вызова их через grpc
+type GrpcServer struct {
+	pb.UnimplementedGreeterServer
+}
+
+func (s *GrpcServer) StateFun(ctx context.Context, in *pb.StateRequest) (*pb.StateReply, error) {
+	log.Printf("Received: %v", in.GetName())
+	return &pb.HelloReply{Message: "Hello " + in.GetName()}, nil
+	//TODO понять как работает return в grpc
+}
 
 func main() {
 	cfg, err := config.LoadConfig("./config/server/")
@@ -23,13 +32,12 @@ func main() {
 
 	server.Run()
 	// Код который написн ниже считается говно-кодом)))
-	flag.Parse()
-	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", *port))
+	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", 50051))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
 	s := grpc.NewServer()
-	pb.RegisterGreeterServer(s, &server{})
+	pb.RegisterGreeterServer(s, &GrpcServer{})
 	log.Printf("server listening at %v", lis.Addr())
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
