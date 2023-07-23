@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 package grpc;
-option go_package = "sending-grps-status/proto/grpc";
+option go_package = "GSS/proto/grpc";
 
 
 message StateRequest{
@@ -48,7 +48,7 @@ message StateRequest{
 }
 
 message StateReply{
-  string hi = 1;
+  string Hi = 1;
 }
 
 service Status {

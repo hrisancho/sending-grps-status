@@ -1,35 +1,33 @@
 package main
 
 import (
-	"GSS/internal/client"
-	"GSS/internal/client/config"
 	"GSS/internal/metrics"
 	"context"
 	"time"
 
+	pb "GSS/proto/grpc"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
-	pb "google.golang.org/grpc/examples/helloworld/helloworld"
 	"log"
 )
 
 var addr = "localhost:50051"
 
 func main() {
-	cfg, err := config.LoadConfig("./config/client")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	user, err := client.NewUser(cfg)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	err = user.StreamingMetrics()
-	if err != nil {
-		log.Fatal(err)
-	}
+	//cfg, err := config.LoadConfig("./config/client")
+	//if err != nil {
+	//	log.Fatal(err)
+	//}
+	//
+	//user, err := client.NewUser(cfg)
+	//if err != nil {
+	//	log.Fatal(err)
+	//}
+	//
+	//err = user.StreamingMetrics()
+	//if err != nil {
+	//	log.Fatal(err)
+	//}
 	// Код который написн ниже считается говно-кодом)))
 	mStorage, err := metrics.Get()
 	if err != nil {
@@ -41,12 +39,12 @@ func main() {
 		log.Fatalf("did not connect: %v", err)
 	}
 	defer conn.Close()
-	c := pb.NewGreeterClient(conn)
+	c := pb.NewStatusClient(conn)
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 	//ссылки
-	meseg = &pb.StateRequest{
+	meseg := &pb.StateRequest{
 		NextGC:      mStorage.MetricMapUint32["NextGC"],
 		NumForcedGC: mStorage.MetricMapUint32["NumForcedGC"],
 
@@ -78,11 +76,11 @@ func main() {
 		TotalMemory:  mStorage.MetricMapUint64["TotalMemory"],
 		FreeMemory:   mStorage.MetricMapUint64["FreeMemory"],
 
-		GCCPUFraction: mStorage.MetricMapFloat64["GCCPUFraction"],
+		GCCPUFraction: float32(mStorage.MetricMapFloat64["GCCPUFraction"]),
 	}
 	r, err := c.StateFun(ctx, meseg)
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
 	}
-	log.Printf("Greeting: %s", r.GetMessage())
+	log.Printf("Greeting: ", r)
 }
