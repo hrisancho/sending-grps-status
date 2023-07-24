@@ -2,13 +2,12 @@ package main
 
 import (
 	"GSS/internal/metrics"
-	"context"
-	"time"
-
 	pb "GSS/proto/grpc"
+	"context"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	"log"
+	"time"
 )
 
 var addr = "localhost:50051"
@@ -28,6 +27,7 @@ func main() {
 	//if err != nil {
 	//	log.Fatal(err)
 	//}
+
 	// Код который написн ниже считается говно-кодом)))
 	mStorage, err := metrics.Get()
 	if err != nil {

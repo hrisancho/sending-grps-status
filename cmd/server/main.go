@@ -9,7 +9,6 @@ import (
 	"net"
 )
 
-// TODO сделать методы для вызова их через grpc
 type GrpcServer struct {
 	pb.UnimplementedStatusServer
 }
