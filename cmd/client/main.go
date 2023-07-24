@@ -1,6 +1,7 @@
 package main
 
 import (
+	"GSS/internal/client/config"
 	"GSS/internal/metrics"
 	pb "GSS/proto/grpc"
 	"context"
@@ -13,10 +14,10 @@ import (
 var addr = "localhost:50051"
 
 func main() {
-	//cfg, err := config.LoadConfig("./config/client")
-	//if err != nil {
-	//	log.Fatal(err)
-	//}
+	cfg, err := config.LoadConfig("./config/client")
+	if err != nil {
+		log.Fatal(err)
+	}
 	//
 	//user, err := client.NewUser(cfg)
 	//if err != nil {
@@ -34,7 +35,7 @@ func main() {
 		return
 	}
 	//Подключение к серверу
-	conn, err := grpc.Dial(addr, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	conn, err := grpc.Dial(cfg.GrpcServerAddr, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}

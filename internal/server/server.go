@@ -16,7 +16,7 @@ type Server struct {
 	UsersMetrics map[uuid.UUID][]metrics.MetricStorage
 }
 
-func NewServer(config config.Config) (server *Server) {
+func NewWebServer(config config.Config) (server *Server) {
 	server = &Server{
 		App:          fiber.New(),
 		Config:       config,

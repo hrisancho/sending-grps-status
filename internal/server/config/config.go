@@ -17,13 +17,15 @@ type Config struct {
 	ServerAddr string `mapstructure:"SERVER_ADDR"`
 
 	// Logger settings
-	Logger_fmt string `mapstructure:"LOGGER_FMT"`
+	Logger_fmt     string `mapstructure:"LOGGER_FMT"`
+	GrpcServerAddr string `mapstructure:"GRPC_SERVER_ADDR"`
 }
 
 func initDefaultConfig() (v *viper.Viper) {
 	v = viper.New()
 	v.SetDefault("SERVER_ADDR", "127.0.0.1:8080")
 	v.SetDefault("LOGGER_FMT", LoggerFormat)
+	v.SetDefault("GRPC_SERVER_ADDR", "127.0.0.1:50051")
 	return v
 }
 

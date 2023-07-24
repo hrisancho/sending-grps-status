@@ -10,14 +10,16 @@ import (
 
 type Config struct {
 	// ServerAddr - адрес сервера
-	ServerAddr string `mapstructure:"SERVER_ADDR"`
-	UUID       string `mapstructure:"UUID"`
+	ServerAddr     string `mapstructure:"SERVER_ADDR"`
+	UUID           string `mapstructure:"UUID"`
+	GrpcServerAddr string `mapstructure:"GRPC_SERVER_ADDR"`
 }
 
 func initDefaultConfig() (v *viper.Viper) {
 	v = viper.New()
 	v.SetDefault("SERVER_ADDR", "127.0.0.1:8080")
 	v.SetDefault("UUID", "1412fe28-06b0-408b-832d-f2d5aa4792a5")
+	v.SetDefault("GRPC_SERVER_ADDR", "127.0.0.1:50051")
 	return v
 }
 
