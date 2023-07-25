@@ -51,6 +51,10 @@ message StateReply{
   string Hi = 1;
 }
 
+message AllStatusDeviceRequest{
+  string All = 1;
+}
+
 message State {
   int32 st1 = 1;
   int32 st2 = 2;
@@ -60,22 +64,20 @@ message Control {
   map<string, State> TicketState = 1;
 }
 
-message GetAllStates {
+message GetAllStatesReply {
   repeated Control MapAllDevice = 1;
 }
 
-message GetStateDivece{
+message GetStateDiveceRequest {
   string uuid = 1;
 }
-
-
 
 service Status {
   rpc StateFun (StateRequest) returns (StateReply){}
   //Статус всех uuid устройств
-  rpc AllStateFun () returns (GetAllStates){}
+  rpc AllStateFun (AllStatusDeviceRequest) returns (GetAllStatesReply){}
   //Добавить устройство
   rpc AddNewDeviceFun (Control) returns (StateReply){}
   //Узнать состояние конкретного устройства
-  rpc DeviceStateFun (GetStateDivece) returns (Control){}
+  rpc DeviceStateFun (GetStateDiveceRequest) returns (Control){}
 }
