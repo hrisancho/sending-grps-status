@@ -11,10 +11,19 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	//
-	//server := server.NewWebServer(cfg)
-	//
-	//server.Run()
-	server.RunGrpcServer(cfg)
 
+	go func() {
+		serv := server.NewWebServer(cfg)
+		// Start the web server
+		serv.Run()
+	}()
+	//serv := server.NewWebServer(cfg)
+	//
+	//serv.Run()
+
+	go func() {
+		server.RunGrpcServer(cfg)
+	}()
+
+	select {}
 }

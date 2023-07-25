@@ -1,10 +1,36 @@
 package client
 
 import (
+	"GSS/internal/client/config"
 	"GSS/internal/metrics"
 	pb "GSS/proto/grpc"
+	"context"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 	"log"
 )
+
+func StateFunCli(config config.Config) {
+	conn, err := grpc.Dial(config.GrpcServerAddr, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	if err != nil {
+		log.Fatalf("did not connect: %v", err)
+	}
+	defer conn.Close()
+
+	cli := pb.NewStatusClient(conn)
+
+	ctx := context.Background()
+	//Объявление сообщения
+	meseg := StateRequest()
+	//Отправка изображения
+
+	response, err := cli.StateFun(ctx, meseg)
+
+	if err != nil {
+		log.Fatalf("could not greet: %v", err)
+	}
+	log.Printf("Greeting: ", response)
+}
 
 func StateRequest() (mes *pb.StateRequest) {
 	mStorage, err := metrics.Get()
